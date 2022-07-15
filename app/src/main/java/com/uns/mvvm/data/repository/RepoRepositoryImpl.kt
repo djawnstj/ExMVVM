@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import retrofit2.HttpException
 
-class RepoRepositoryImpl() : RepoRepository {
+class RepoRepositoryImpl : RepoRepository {
 
     override fun postRepoList(user: String, callback: BaseResponse<List<RepoModel>>): Disposable {
         return(
@@ -16,7 +16,7 @@ class RepoRepositoryImpl() : RepoRepository {
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { callback.onLoading() }           // 구독할 때 수행될 작업
                     .doOnTerminate { callback.endLoading() }        // 스트림이 종료될 때 수행될 작업 (성공과 에러)
-                    .subscribe({ it -> callback.onSuccess(it) })    // observable 구독
+                    .subscribe({ callback.onSuccess(it) })    // observable 구독
                     {
                         if(it is HttpException) callback.onFailure(it.message())
                         else callback.onError(it)

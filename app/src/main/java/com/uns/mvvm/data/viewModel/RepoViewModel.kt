@@ -18,7 +18,8 @@ class RepoViewModel(private val repoRepository: RepoRepository,
     companion object { private const val TAG = "RepoViewModel" }
 
     //로딩 필드
-    val isLoading = ObservableField(false)
+    val isLoading = ObservableField(8)
+    val loadingMessage = ObservableField("")
     //검색 버튼 활성 필드
     val enableSearchButton = ObservableField(false)
     //에러 메시지 필드
@@ -67,7 +68,7 @@ class RepoViewModel(private val repoRepository: RepoRepository,
 
                 override fun onLoading() {
                     clearItems()
-                    showLoading()
+                    showLoading("$user 정보를 조회합니다.")
                     hideErrorMessage()
                 }
 
@@ -83,12 +84,13 @@ class RepoViewModel(private val repoRepository: RepoRepository,
         items.set(emptyList())
     }
 
-    private fun showLoading() {
-        isLoading.set(true)
+    private fun showLoading(msg: String) {
+        isLoading.set(0)
+        loadingMessage.set(msg)
     }
 
     private fun hideLoading() {
-        isLoading.set(false)
+        isLoading.set(8)
     }
 
     private fun showErrorMessage(error: String) {

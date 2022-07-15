@@ -38,14 +38,10 @@ class SearchFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.model = repoViewModel
 
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
         initEditText()
         initObserve()
+
+        return binding.root
     }
 
     private fun initEditText() {
@@ -73,10 +69,11 @@ class SearchFragment: Fragment() {
         })
     }
 
-    override fun onStop() {
-        AppData.debug(TAG, "onStop called.")
+    override fun onDestroy() {
+
         compositeDisposable.dispose()
-        super.onStop()
+
+        super.onDestroy()
     }
 
 }
